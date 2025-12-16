@@ -1,0 +1,10 @@
+import CdgPlayer from '@/components/CdgPlayer';
+
+export default function PlayerPage() {
+  return (
+    <div style={{ padding: 40, maxWidth: 1200, margin: '0 auto' }}>
+      <h1 style={{ marginBottom: 30, fontSize: 36 }}>🎵 Karaoke Player</h1>
+      <CdgPlayer />
+    </div>
+  );
+}
