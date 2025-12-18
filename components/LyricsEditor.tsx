@@ -95,27 +95,37 @@ export default function LyricsEditor() {
   return (
     <div style={{ maxWidth: 900 }}>
       <section style={sectionStyle}>
-        <h3 style={{ marginBottom: 15 }}>1. Load Audio</h3>
-        <input type="file" accept="audio/*" onChange={handleAudioUpload} />
+        <h3 style={{ marginBottom: 15, color: '#fff' }}>1. Load Audio</h3>
+        <input type="file" accept="audio/*" onChange={handleAudioUpload} style={{ color: '#fff' }} />
         {audioURL && (
           <div style={{ marginTop: 15 }}>
             <button onClick={togglePlay} style={buttonStyle}>
               {isPlaying ? '⏸ Pause' : '▶ Play'}
             </button>
-            <span style={{ marginLeft: 15, fontSize: 16 }}>Time: {formatTime(currentTime)}</span>
+            <span style={{ marginLeft: 15, fontSize: 16, color: '#fff' }}>Time: {formatTime(currentTime)}</span>
           </div>
         )}
       </section>
 
       <section style={sectionStyle}>
-        <h3 style={{ marginBottom: 15 }}>2. Add Lyrics</h3>
+        <h3 style={{ marginBottom: 15, color: '#fff' }}>2. Add Lyrics</h3>
         <div style={{ display: 'flex', gap: 10, marginBottom: 15 }}>
           <input
             type="text"
             value={newLyricText}
             onChange={(e) => setNewLyricText(e.target.value)}
             placeholder="Enter lyric line..."
-            style={{ flex: 1, padding: 12, fontSize: 16, borderRadius: 4, border: '1px solid #ddd' }}
+            style={{ 
+              flex: 1, 
+              padding: 12, 
+              fontSize: 16, 
+              borderRadius: 12, 
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              background: 'rgba(255, 255, 255, 0.2)',
+              color: '#fff',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+            }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') addLyric();
             }}
@@ -137,24 +147,33 @@ export default function LyricsEditor() {
       </section>
 
       <section style={sectionStyle}>
-        <h3 style={{ marginBottom: 15 }}>3. Current Lyric Preview</h3>
+        <h3 style={{ marginBottom: 15, color: '#fff' }}>3. Current Lyric Preview</h3>
         <div style={previewStyle}>
           {currentLyric ? currentLyric.text : 'No lyric at this time'}
         </div>
       </section>
 
       <section style={{ marginTop: 30 }}>
-        <h3 style={{ marginBottom: 15 }}>All Lyrics ({lyrics.length})</h3>
-        <div style={{ maxHeight: 400, overflowY: 'auto', border: '1px solid #ddd', borderRadius: 8 }}>
+        <h3 style={{ marginBottom: 15, color: '#fff' }}>All Lyrics ({lyrics.length})</h3>
+        <div style={{ 
+          maxHeight: 400, 
+          overflowY: 'auto', 
+          border: '1px solid rgba(255, 255, 255, 0.2)', 
+          borderRadius: 16,
+          background: 'rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+        }}>
           {lyrics. map((lyric) => (
             <div
               key={lyric.id}
               style={{
                 padding: 15,
-                borderBottom: '1px solid #eee',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
                 display: 'flex',
                 justifyContent: 'space-between',
-                background: currentLyric?.id === lyric. id ? '#fff3cd' : 'white',
+                background: currentLyric?.id === lyric. id ? 'rgba(255, 243, 205, 0.2)' : 'transparent',
+                color: '#fff',
               }}
             >
               <div>
@@ -174,18 +193,26 @@ export default function LyricsEditor() {
 const sectionStyle = {
   marginBottom: 30,
   padding: 20,
-  background: '#f5f5f5',
-  borderRadius: 8,
+  background: 'rgba(255, 255, 255, 0.15)',
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
+  borderRadius: 16,
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
 };
 
 const buttonStyle = {
   padding:  '10px 20px',
-  background: '#0070f3',
+  background: 'rgba(255, 255, 255, 0.2)',
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)',
   color: 'white',
-  border: 'none',
-  borderRadius: 6,
+  border: '1px solid rgba(255, 255, 255, 0.3)',
+  borderRadius: 12,
   cursor: 'pointer',
   fontSize: 16,
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+  transition: 'all 0.3s ease',
 };
 
 const addButtonStyle = {
@@ -204,25 +231,34 @@ const importLabelStyle = {
 };
 
 const deleteButtonStyle = {
-  color: 'red',
+  color: '#fff',
   cursor: 'pointer',
   border: 'none',
-  background: 'none',
+  background: 'rgba(220, 0, 0, 0.3)',
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)',
   fontSize: 18,
   fontWeight: 'bold',
+  padding: '5px 10px',
+  borderRadius: 8,
+  border: '1px solid rgba(255, 100, 100, 0.5)',
 };
 
 const previewStyle = {
   padding: 30,
-  background: '#000',
+  background: 'rgba(0, 0, 0, 0.5)',
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)',
   color: '#fff',
   fontSize: 32,
   textAlign: 'center' as const,
-  borderRadius: 8,
+  borderRadius: 16,
   minHeight: 100,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
+  boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.5)',
 };
 
 function formatTime(s: number) {

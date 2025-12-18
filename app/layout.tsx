@@ -34,9 +34,12 @@ const navStyle = {
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '15px 40px',
-  background: '#000',
+  background: 'rgba(255, 255, 255, 0.1)',
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)',
   color: '#fff',
-  borderBottom: '2px solid #0070f3',
+  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
 };
 
 const logoStyle = {
@@ -44,6 +47,7 @@ const logoStyle = {
   fontWeight: 'bold',
   textDecoration: 'none',
   color: '#fff',
+  textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
 };
 
 const navLinksStyle = {
@@ -55,8 +59,10 @@ const navLinkStyle = {
   color: '#fff',
   textDecoration: 'none',
   padding: '8px 16px',
-  borderRadius: 4,
-  transition: 'background 0.2s',
+  borderRadius: 12,
+  transition: 'all 0.3s ease',
+  background: 'rgba(255, 255, 255, 0.1)',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
 };
 
 const mainStyle = {

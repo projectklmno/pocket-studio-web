@@ -141,25 +141,41 @@ export default function CdgPlayer({ audioUrl, cdgUrl }: Props) {
 
   return (
     <div style={{ maxWidth: 900 }}>
-      <div style={{ marginBottom: 20, padding: 20, background: '#f5f5f5', borderRadius:  8 }}>
+      <div style={{ 
+        marginBottom: 20, 
+        padding: 20, 
+        background: 'rgba(255, 255, 255, 0.15)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        borderRadius: 16,
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+      }}>
         <div style={{ marginBottom: 15 }}>
-          <label style={{ marginRight: 10, fontWeight: 'bold' }}>Audio File:</label>
-          <input type="file" accept="audio/*" onChange={handleAudioUpload} />
+          <label style={{ marginRight: 10, fontWeight: 'bold', color: '#fff' }}>Audio File:</label>
+          <input type="file" accept="audio/*" onChange={handleAudioUpload} style={{ color: '#fff' }} />
         </div>
         <div style={{ marginBottom: 15 }}>
-          <label style={{ marginRight: 10, fontWeight: 'bold' }}>CDG File:</label>
-          <input type="file" accept=".cdg" onChange={handleCdgUpload} />
+          <label style={{ marginRight: 10, fontWeight: 'bold', color: '#fff' }}>CDG File:</label>
+          <input type="file" accept=".cdg" onChange={handleCdgUpload} style={{ color: '#fff' }} />
         </div>
         <div style={{ marginBottom: 15 }}>
-          <label style={{ marginRight: 10, fontWeight: 'bold' }}>Background:</label>
+          <label style={{ marginRight: 10, fontWeight: 'bold', color: '#fff' }}>Background:</label>
           <select 
             value={backgroundType} 
             onChange={(e) => setBackgroundType(e.target.value as 'none' | 'color' | 'image')}
-            style={{ marginRight: 10, padding: '5px 10px', borderRadius: 4, border: '1px solid #ccc' }}
+            style={{ 
+              marginRight: 10, 
+              padding: '5px 10px', 
+              borderRadius: 8, 
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              background: 'rgba(255, 255, 255, 0.2)',
+              color: '#fff',
+            }}
           >
-            <option value="none">None</option>
-            <option value="color">Solid Color</option>
-            <option value="image">Image</option>
+            <option value="none" style={{ color: '#000' }}>None</option>
+            <option value="color" style={{ color: '#000' }}>Solid Color</option>
+            <option value="image" style={{ color: '#000' }}>Image</option>
           </select>
           {backgroundType === 'color' && (
             <input 
@@ -170,7 +186,7 @@ export default function CdgPlayer({ audioUrl, cdgUrl }: Props) {
             />
           )}
           {backgroundType === 'image' && (
-            <input type="file" accept="image/*" onChange={handleBackgroundUpload} />
+            <input type="file" accept="image/*" onChange={handleBackgroundUpload} style={{ color: '#fff' }} />
           )}
         </div>
       </div>
@@ -179,7 +195,7 @@ export default function CdgPlayer({ audioUrl, cdgUrl }: Props) {
         <button onClick={togglePlay} style={buttonStyle}>
           {isPlaying ? '⏸ Pause' : '▶ Play'}
         </button>
-        <span style={{ marginLeft: 15, fontSize: 16 }}>
+        <span style={{ marginLeft: 15, fontSize: 16, color: '#fff', textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}>
           {formatTime(currentTime)} / {formatTime(duration)}
         </span>
       </div>
@@ -193,7 +209,13 @@ export default function CdgPlayer({ audioUrl, cdgUrl }: Props) {
         style={{ width: '100%', height: 8, cursor: 'pointer' }}
       />
       <div style={{ marginTop: 15 }}>
-        <canvas ref={canvasRef} width={768} height={432} style={{ width: '100%', background: '#000', borderRadius: 8 }} />
+        <canvas ref={canvasRef} width={768} height={432} style={{ 
+          width: '100%', 
+          background: '#000', 
+          borderRadius: 16,
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.5)',
+        }} />
       </div>
     </div>
   );
@@ -202,12 +224,16 @@ export default function CdgPlayer({ audioUrl, cdgUrl }: Props) {
 const buttonStyle = {
   padding: '12px 24px',
   fontSize: 16,
-  background: '#0070f3',
+  background: 'rgba(255, 255, 255, 0.2)',
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)',
   color: 'white',
-  border: 'none',
-  borderRadius: 6,
+  border: '1px solid rgba(255, 255, 255, 0.3)',
+  borderRadius: 12,
   cursor: 'pointer',
   fontWeight: 'bold',
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+  transition: 'all 0.3s ease',
 };
 
 function formatTime(s: number) {

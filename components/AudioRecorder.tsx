@@ -98,8 +98,8 @@ export default function AudioRecorder() {
   return (
     <div style={{ maxWidth:  800 }}>
       <section style={sectionStyle}>
-        <h3 style={{ marginBottom: 15 }}>1. Select Backing Track (Optional)</h3>
-        <input type="file" accept="audio/*" onChange={handleBackingTrackUpload} />
+        <h3 style={{ marginBottom: 15, color: '#fff' }}>1. Select Backing Track (Optional)</h3>
+        <input type="file" accept="audio/*" onChange={handleBackingTrackUpload} style={{ color: '#fff' }} />
         {backingTrackURL && (
           <div style={{ marginTop: 15 }}>
             <audio controls src={backingTrackURL} style={{ width: '100%' }} />
@@ -108,7 +108,7 @@ export default function AudioRecorder() {
       </section>
 
       <section style={sectionStyle}>
-        <h3 style={{ marginBottom: 15 }}>2. Record Your Vocals</h3>
+        <h3 style={{ marginBottom: 15, color: '#fff' }}>2. Record Your Vocals</h3>
         <div>
           {! isRecording ? (
             <button onClick={startRecording} style={recordButtonStyle}>
@@ -121,7 +121,7 @@ export default function AudioRecorder() {
           )}
         </div>
         {isRecording && (
-          <div style={{ marginTop: 15, color: 'red', fontWeight: 'bold', fontSize: 18 }}>
+          <div style={{ marginTop: 15, color: '#fff', fontWeight: 'bold', fontSize: 18, textShadow: '0 2px 10px rgba(255, 0, 0, 0.5)' }}>
             🔴 Recording in progress...
           </div>
         )}
@@ -129,13 +129,13 @@ export default function AudioRecorder() {
 
       {audioURL && (
         <section style={sectionStyle}>
-          <h3 style={{ marginBottom: 15 }}>3. Playback & Upload</h3>
+          <h3 style={{ marginBottom: 15, color: '#fff' }}>3. Playback & Upload</h3>
           <audio controls src={audioURL} style={{ width: '100%', marginBottom: 15 }} />
           <button onClick={uploadRecording} style={uploadButtonStyle}>
             📤 Upload to Server
           </button>
           {uploadProgress > 0 && uploadProgress < 100 && (
-            <div style={{ marginTop:  10, fontSize: 16 }}>Uploading:  {uploadProgress}%</div>
+            <div style={{ marginTop:  10, fontSize: 16, color: '#fff' }}>Uploading:  {uploadProgress}%</div>
           )}
         </section>
       )}
@@ -146,32 +146,45 @@ export default function AudioRecorder() {
 const sectionStyle = {
   marginBottom: 30,
   padding: 20,
-  background:  '#f5f5f5',
-  borderRadius: 8,
+  background: 'rgba(255, 255, 255, 0.15)',
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
+  borderRadius: 16,
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
 };
 
 const recordButtonStyle = {
   padding: '15px 30px',
   fontSize: 16,
-  background: '#0070f3',
+  background: 'rgba(255, 255, 255, 0.2)',
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)',
   color: 'white',
-  border: 'none',
-  borderRadius:  6,
+  border: '1px solid rgba(255, 255, 255, 0.3)',
+  borderRadius: 12,
   cursor: 'pointer',
-  fontWeight:  'bold',
+  fontWeight: 'bold',
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+  transition: 'all 0.3s ease',
 };
 
 const stopButtonStyle = {
   ... recordButtonStyle,
-  background: '#d00',
+  background: 'rgba(220, 0, 0, 0.3)',
+  border: '1px solid rgba(255, 100, 100, 0.5)',
 };
 
 const uploadButtonStyle = {
   padding: '12px 24px',
-  background: '#0070f3',
+  background: 'rgba(255, 255, 255, 0.2)',
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)',
   color: 'white',
-  border: 'none',
-  borderRadius: 6,
+  border: '1px solid rgba(255, 255, 255, 0.3)',
+  borderRadius: 12,
   cursor: 'pointer',
   fontSize: 16,
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+  transition: 'all 0.3s ease',
 };

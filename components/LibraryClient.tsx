@@ -29,43 +29,54 @@ export default function LibraryClient() {
       });
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div style={{ color: '#fff' }}>Loading...</div>;
 
   return (
     <div>
-      <p style={{ marginBottom: 20, color: '#666' }}>{files.length} files</p>
+      <p style={{ marginBottom: 20, color: '#fff' }}>{files.length} files</p>
       <div>
         {files.map((file) => (
           <div
             key={file.id}
             style={{
               padding: 15,
-              border: '1px solid #ddd',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
               marginBottom: 10,
-              borderRadius: 4,
+              borderRadius: 12,
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              background: 'white',
+              background: 'rgba(255, 255, 255, 0.15)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
             }}
           >
             <div>
-              <strong>{file.name}</strong>
-              <div style={{ fontSize: 12, color: '#666', marginTop: 5 }}>
+              <strong style={{ color: '#fff' }}>{file.name}</strong>
+              <div style={{ fontSize: 12, color: '#fff', marginTop: 5, opacity: 0.8 }}>
                 {(file.size / 1024 / 1024).toFixed(2)} MB · {new Date(file.modifiedAt).toLocaleDateString()}
               </div>
             </div>
             <a
               href={file.url}
               download
-              style={{ color: '#0070f3', padding: '8px 16px', border: '1px solid #0070f3', borderRadius: 4 }}
+              style={{ 
+                color: '#fff', 
+                padding: '8px 16px', 
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: 8,
+                background: 'rgba(255, 255, 255, 0.2)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+              }}
             >
               Download
             </a>
           </div>
         ))}
         {files.length === 0 && (
-          <p style={{ color: '#999', textAlign: 'center', padding: 40 }}>No files uploaded yet</p>
+          <p style={{ color: '#fff', textAlign: 'center', padding: 40, opacity: 0.7 }}>No files uploaded yet</p>
         )}
       </div>
     </div>
