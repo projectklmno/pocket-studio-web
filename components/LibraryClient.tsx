@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useThemedStyles } from './useThemedStyles';
 
 type FileItem = {
   id: string;
@@ -14,6 +15,7 @@ type FileItem = {
 export default function LibraryClient() {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const { getTextColor, getGlassStyle } = useThemedStyles();
 
   useEffect(() => {
     const backendUrl = process.env. NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
@@ -29,32 +31,28 @@ export default function LibraryClient() {
       });
   }, []);
 
-  if (loading) return <div style={{ color: '#fff' }}>Loading...</div>;
+  if (loading) return <div style={{ color: getTextColor() }}>Loading...</div>;
 
   return (
     <div>
-      <p style={{ marginBottom: 20, color: '#fff' }}>{files.length} files</p>
+      <p style={{ marginBottom: 20, color: getTextColor() }}>{files.length} files</p>
       <div>
         {files.map((file) => (
           <div
             key={file.id}
             style={{
               padding: 15,
-              border: '1px solid rgba(255, 255, 255, 0.2)',
               marginBottom: 10,
               borderRadius: 12,
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              background: 'rgba(255, 255, 255, 0.15)',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
-              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+              ...getGlassStyle(0.15),
             }}
           >
             <div>
-              <strong style={{ color: '#fff' }}>{file.name}</strong>
-              <div style={{ fontSize: 12, color: '#fff', marginTop: 5, opacity: 0.8 }}>
+              <strong style={{ color: getTextColor() }}>{file.name}</strong>
+              <div style={{ fontSize: 12, color: getTextColor(), marginTop: 5, opacity: 0.8 }}>
                 {(file.size / 1024 / 1024).toFixed(2)} MB · {new Date(file.modifiedAt).toLocaleDateString()}
               </div>
             </div>
@@ -62,13 +60,10 @@ export default function LibraryClient() {
               href={file.url}
               download
               style={{ 
-                color: '#fff', 
+                color: getTextColor(), 
                 padding: '8px 16px', 
-                border: '1px solid rgba(255, 255, 255, 0.3)',
                 borderRadius: 8,
-                background: 'rgba(255, 255, 255, 0.2)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
+                ...getGlassStyle(0.2),
               }}
             >
               Download
@@ -76,7 +71,7 @@ export default function LibraryClient() {
           </div>
         ))}
         {files.length === 0 && (
-          <p style={{ color: '#fff', textAlign: 'center', padding: 40, opacity: 0.7 }}>No files uploaded yet</p>
+          <p style={{ color: getTextColor(), textAlign: 'center', padding: 40, opacity: 0.7 }}>No files uploaded yet</p>
         )}
       </div>
     </div>
