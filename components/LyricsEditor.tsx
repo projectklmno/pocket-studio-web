@@ -83,7 +83,7 @@ export default function LyricsEditor() {
       try {
         const data = JSON.parse(ev.target?.result as string);
         setLyrics(data);
-      } catch (err) {
+      } catch {
         alert('Invalid lyrics file');
       }
     };
@@ -164,7 +164,7 @@ export default function LyricsEditor() {
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
         }}>
-          {lyrics. map((lyric) => (
+          {lyrics.map((lyric) => (
             <div
               key={lyric.id}
               style={{
@@ -172,7 +172,7 @@ export default function LyricsEditor() {
                 borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
                 display: 'flex',
                 justifyContent: 'space-between',
-                background: currentLyric?.id === lyric. id ? 'rgba(255, 243, 205, 0.2)' : 'transparent',
+                background: currentLyric?.id === lyric.id ? 'rgba(255, 243, 205, 0.2)' : 'transparent',
                 color: '#fff',
               }}
             >
@@ -233,7 +233,6 @@ const importLabelStyle = {
 const deleteButtonStyle = {
   color: '#fff',
   cursor: 'pointer',
-  border: 'none',
   background: 'rgba(220, 0, 0, 0.3)',
   backdropFilter: 'blur(10px)',
   WebkitBackdropFilter: 'blur(10px)',

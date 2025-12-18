@@ -123,7 +123,7 @@ export default function CdgPlayer({ audioUrl, cdgUrl }: Props) {
   };
 
   const handleCdgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files? .[0];
+    const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
       setCdgFile(url);
@@ -260,9 +260,9 @@ function parseCdgToFrames(buf: ArrayBuffer) {
   const MEMORY_PRESET = 1;
   const BORDER_PRESET = 2;
   const TILE_BLOCK = 6;
-  const SCROLL_PRESET = 20;
-  const SCROLL_COPY = 24;
-  const DEFINE_TRANSPARENT_COLOR = 28;
+  const _SCROLL_PRESET = 20;
+  const _SCROLL_COPY = 24;
+  const _DEFINE_TRANSPARENT_COLOR = 28;
   const LOAD_COLOR_TABLE_LOW = 30;
   const LOAD_COLOR_TABLE_HIGH = 31;
   const TILE_BLOCK_XOR = 38;
