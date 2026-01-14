@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
+import { useThemedStyles } from './useThemedStyles';
 
 export default function AudioRecorder() {
   const [isRecording, setIsRecording] = useState(false);
@@ -9,6 +10,7 @@ export default function AudioRecorder() {
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [backingTrackURL, setBackingTrackURL] = useState<string | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const { getTextColor, getGlassStyle, getButtonStyle } = useThemedStyles();
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -58,7 +60,7 @@ export default function AudioRecorder() {
   };
 
   const handleBackingTrackUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files? .[0];
+    const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
       setBackingTrackURL(url);
@@ -95,11 +97,43 @@ export default function AudioRecorder() {
     }
   }, [backingTrackURL]);
 
+  const sectionStyle = {
+    marginBottom: 30,
+    padding: 20,
+    ...getGlassStyle(0.15),
+    borderRadius: 16,
+  };
+
+  const recordButtonStyle = {
+    padding: '15px 30px',
+    fontSize: 16,
+    ...getButtonStyle(),
+    borderRadius: 12,
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    transition: 'all 0.3s ease',
+  };
+
+  const stopButtonStyle = {
+    ...recordButtonStyle,
+    background: 'rgba(220, 0, 0, 0.3)',
+    border: '1px solid rgba(255, 100, 100, 0.5)',
+  };
+
+  const uploadButtonStyle = {
+    padding: '12px 24px',
+    ...getButtonStyle(),
+    borderRadius: 12,
+    cursor: 'pointer',
+    fontSize: 16,
+    transition: 'all 0.3s ease',
+  };
+
   return (
     <div style={{ maxWidth:  800 }}>
       <section style={sectionStyle}>
-        <h3 style={{ marginBottom: 15 }}>1. Select Backing Track (Optional)</h3>
-        <input type="file" accept="audio/*" onChange={handleBackingTrackUpload} />
+        <h3 style={{ marginBottom: 15, color: getTextColor() }}>1. Select Backing Track (Optional)</h3>
+        <input type="file" accept="audio/*" onChange={handleBackingTrackUpload} style={{ color: getTextColor() }} />
         {backingTrackURL && (
           <div style={{ marginTop: 15 }}>
             <audio controls src={backingTrackURL} style={{ width: '100%' }} />
@@ -108,7 +142,7 @@ export default function AudioRecorder() {
       </section>
 
       <section style={sectionStyle}>
-        <h3 style={{ marginBottom: 15 }}>2. Record Your Vocals</h3>
+        <h3 style={{ marginBottom: 15, color: getTextColor() }}>2. Record Your Vocals</h3>
         <div>
           {! isRecording ? (
             <button onClick={startRecording} style={recordButtonStyle}>
@@ -121,7 +155,7 @@ export default function AudioRecorder() {
           )}
         </div>
         {isRecording && (
-          <div style={{ marginTop: 15, color: 'red', fontWeight: 'bold', fontSize: 18 }}>
+          <div style={{ marginTop: 15, color: getTextColor(), fontWeight: 'bold', fontSize: 18, textShadow: '0 2px 10px rgba(255, 0, 0, 0.5)' }}>
             🔴 Recording in progress...
           </div>
         )}
@@ -129,49 +163,16 @@ export default function AudioRecorder() {
 
       {audioURL && (
         <section style={sectionStyle}>
-          <h3 style={{ marginBottom: 15 }}>3. Playback & Upload</h3>
+          <h3 style={{ marginBottom: 15, color: getTextColor() }}>3. Playback & Upload</h3>
           <audio controls src={audioURL} style={{ width: '100%', marginBottom: 15 }} />
           <button onClick={uploadRecording} style={uploadButtonStyle}>
             📤 Upload to Server
           </button>
           {uploadProgress > 0 && uploadProgress < 100 && (
-            <div style={{ marginTop:  10, fontSize: 16 }}>Uploading:  {uploadProgress}%</div>
+            <div style={{ marginTop:  10, fontSize: 16, color: getTextColor() }}>Uploading:  {uploadProgress}%</div>
           )}
         </section>
       )}
     </div>
   );
 }
-
-const sectionStyle = {
-  marginBottom: 30,
-  padding: 20,
-  background:  '#f5f5f5',
-  borderRadius: 8,
-};
-
-const recordButtonStyle = {
-  padding: '15px 30px',
-  fontSize: 16,
-  background: '#0070f3',
-  color: 'white',
-  border: 'none',
-  borderRadius:  6,
-  cursor: 'pointer',
-  fontWeight:  'bold',
-};
-
-const stopButtonStyle = {
-  ... recordButtonStyle,
-  background: '#d00',
-};
-
-const uploadButtonStyle = {
-  padding: '12px 24px',
-  background: '#0070f3',
-  color: 'white',
-  border: 'none',
-  borderRadius: 6,
-  cursor: 'pointer',
-  fontSize: 16,
-};

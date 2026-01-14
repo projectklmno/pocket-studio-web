@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { useThemedStyles } from './useThemedStyles';
 
 type Props = {
   audioUrl?:  string;
@@ -20,6 +21,7 @@ export default function CdgPlayer({ audioUrl, cdgUrl }: Props) {
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
   const [backgroundType, setBackgroundType] = useState<'none' | 'color' | 'image'>('none');
   const [backgroundColor, setBackgroundColor] = useState<string>('#1a1a1a');
+  const { getTextColor, getGlassStyle, getButtonStyle, getTextShadow } = useThemedStyles();
 
   const cdgFramesRef = useRef<Array<{ time: number; draw: (ctx: CanvasRenderingContext2D) => void }>>([]);
 
@@ -123,7 +125,7 @@ export default function CdgPlayer({ audioUrl, cdgUrl }: Props) {
   };
 
   const handleCdgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files? .[0];
+    const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
       setCdgFile(url);
@@ -139,27 +141,48 @@ export default function CdgPlayer({ audioUrl, cdgUrl }: Props) {
     }
   };
 
+  const buttonStyle = {
+    padding: '12px 24px',
+    fontSize: 16,
+    ...getButtonStyle(),
+    borderRadius: 12,
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    transition: 'all 0.3s ease',
+  };
+
   return (
     <div style={{ maxWidth: 900 }}>
-      <div style={{ marginBottom: 20, padding: 20, background: '#f5f5f5', borderRadius:  8 }}>
+      <div style={{ 
+        marginBottom: 20, 
+        padding: 20, 
+        ...getGlassStyle(0.15),
+        borderRadius: 16,
+      }}>
         <div style={{ marginBottom: 15 }}>
-          <label style={{ marginRight: 10, fontWeight: 'bold' }}>Audio File:</label>
-          <input type="file" accept="audio/*" onChange={handleAudioUpload} />
+          <label style={{ marginRight: 10, fontWeight: 'bold', color: getTextColor() }}>Audio File:</label>
+          <input type="file" accept="audio/*" onChange={handleAudioUpload} style={{ color: getTextColor() }} />
         </div>
         <div style={{ marginBottom: 15 }}>
-          <label style={{ marginRight: 10, fontWeight: 'bold' }}>CDG File:</label>
-          <input type="file" accept=".cdg" onChange={handleCdgUpload} />
+          <label style={{ marginRight: 10, fontWeight: 'bold', color: getTextColor() }}>CDG File:</label>
+          <input type="file" accept=".cdg" onChange={handleCdgUpload} style={{ color: getTextColor() }} />
         </div>
         <div style={{ marginBottom: 15 }}>
-          <label style={{ marginRight: 10, fontWeight: 'bold' }}>Background:</label>
+          <label style={{ marginRight: 10, fontWeight: 'bold', color: getTextColor() }}>Background:</label>
           <select 
             value={backgroundType} 
             onChange={(e) => setBackgroundType(e.target.value as 'none' | 'color' | 'image')}
-            style={{ marginRight: 10, padding: '5px 10px', borderRadius: 4, border: '1px solid #ccc' }}
+            style={{ 
+              marginRight: 10, 
+              padding: '5px 10px', 
+              borderRadius: 8, 
+              ...getGlassStyle(0.2),
+              color: getTextColor(),
+            }}
           >
-            <option value="none">None</option>
-            <option value="color">Solid Color</option>
-            <option value="image">Image</option>
+            <option value="none" style={{ color: '#000' }}>None</option>
+            <option value="color" style={{ color: '#000' }}>Solid Color</option>
+            <option value="image" style={{ color: '#000' }}>Image</option>
           </select>
           {backgroundType === 'color' && (
             <input 
@@ -170,7 +193,7 @@ export default function CdgPlayer({ audioUrl, cdgUrl }: Props) {
             />
           )}
           {backgroundType === 'image' && (
-            <input type="file" accept="image/*" onChange={handleBackgroundUpload} />
+            <input type="file" accept="image/*" onChange={handleBackgroundUpload} style={{ color: getTextColor() }} />
           )}
         </div>
       </div>
@@ -179,7 +202,7 @@ export default function CdgPlayer({ audioUrl, cdgUrl }: Props) {
         <button onClick={togglePlay} style={buttonStyle}>
           {isPlaying ? '⏸ Pause' : '▶ Play'}
         </button>
-        <span style={{ marginLeft: 15, fontSize: 16 }}>
+        <span style={{ marginLeft: 15, fontSize: 16, color: getTextColor(), textShadow: getTextShadow() }}>
           {formatTime(currentTime)} / {formatTime(duration)}
         </span>
       </div>
@@ -193,22 +216,16 @@ export default function CdgPlayer({ audioUrl, cdgUrl }: Props) {
         style={{ width: '100%', height: 8, cursor: 'pointer' }}
       />
       <div style={{ marginTop: 15 }}>
-        <canvas ref={canvasRef} width={768} height={432} style={{ width: '100%', background: '#000', borderRadius: 8 }} />
+        <canvas ref={canvasRef} width={768} height={432} style={{ 
+          width: '100%', 
+          borderRadius: 16,
+          ...getGlassStyle(0),
+          background: '#000', 
+        }} />
       </div>
     </div>
   );
 }
-
-const buttonStyle = {
-  padding: '12px 24px',
-  fontSize: 16,
-  background: '#0070f3',
-  color: 'white',
-  border: 'none',
-  borderRadius: 6,
-  cursor: 'pointer',
-  fontWeight: 'bold',
-};
 
 function formatTime(s: number) {
   if (! s || s === Infinity) return '0:00';
@@ -234,9 +251,9 @@ function parseCdgToFrames(buf: ArrayBuffer) {
   const MEMORY_PRESET = 1;
   const BORDER_PRESET = 2;
   const TILE_BLOCK = 6;
-  const SCROLL_PRESET = 20;
-  const SCROLL_COPY = 24;
-  const DEFINE_TRANSPARENT_COLOR = 28;
+  const _SCROLL_PRESET = 20;
+  const _SCROLL_COPY = 24;
+  const _DEFINE_TRANSPARENT_COLOR = 28;
   const LOAD_COLOR_TABLE_LOW = 30;
   const LOAD_COLOR_TABLE_HIGH = 31;
   const TILE_BLOCK_XOR = 38;
